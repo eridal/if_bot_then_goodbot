@@ -15,7 +15,6 @@ reddit.config(config.redditApi)
 
 const formatDate = (utc) => new Date(utc * 1000).toISOString()
 
-
 const isAllowedIn = (item, blacklist) => {
   return blacklist.indexOf(item) === -1
 }
@@ -46,9 +45,15 @@ const isBot = (user) => {
 }
 
 const replyTo = (comment) => {
-  reduceNoise(comment.author.name)
-  console.log(`Good Bot: ${comment.link_permalink}`)
-  return comment.reply('Good Bot')
+  return comment
+    .reply('Good Bot')
+    .then(replied => {
+      reduceNoise(comment.author.name)
+      console.log('Good Bot: ', replied.permalink)
+    })
+    .catch(err => {
+      console.error('Bad Bot: ', err)
+    })
 }
 
 let last
