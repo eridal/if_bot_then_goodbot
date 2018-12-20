@@ -11,6 +11,8 @@ const reddit = new snoowrap({
   password: secrets.password,
 })
 
+reddit.config(config.redditApi)
+
 const formatDate = (utc) => new Date(utc * 1000).toISOString()
 
 
