@@ -60,7 +60,7 @@ module.exports = () => {
   let max = -Infinity
 
   return reddit
-    .getNewComments({ before: last, sort: 'new', limit: 10000 })
+    .getNewComments({ before: last, sort: 'new', limit: 100 })
     .then(comments => {
       size = comments.length
       console.log('comments', size)
