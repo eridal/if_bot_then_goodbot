@@ -6,7 +6,7 @@ module.exports = {
     requestDelay: 25,
   },
 
-  minDelayInSeconds: 30,
+  minDelayInSeconds: 10,
   maxDelayInSeconds: 120,
 
   blacklist: {

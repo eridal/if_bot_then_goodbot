@@ -1,7 +1,13 @@
 let config = require('./config')
 let goodbot = require('./goodbot')
 
-let delay = config.maxDelayInSeconds
+
+const avg = (a, b) => Math.floor((a + b) / 2)
+
+let delay = avg(
+  config.maxDelayInSeconds,
+  config.minDelayInSeconds
+)
 
 const next = (delta) => {
 
@@ -12,18 +18,14 @@ const next = (delta) => {
 
   delay = Math.max(
     config.minDelayInSeconds,
-    Math.floor((delay + elaps) / 2)
+    avg(delay, elaps)
   )
 
-  console.log('delta', delta)
-  console.log('elaps', elaps)
-  console.log('delay', delay)
-
+  console.log(`delta:${delta} elaps:${elaps} delay:${delay}`)
   setTimeout(execute, 1000 * delay)
 }
 
 const execute = () => {
-  console.log('.')
   goodbot()
     .then(next)
     .catch(err => {
