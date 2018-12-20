@@ -2,5 +2,9 @@
   "name": "goodbot",
   "version": "0.0.0",
   "private": true,
-  "license": "ISC"
+  "license": "ISC",
+
+  "dependencies": {
+    "snoowrap": "^1.15.2"
+  }
 }
