@@ -1,3 +1,5 @@
+const secrets = require('./secrets')
+
 module.exports = {
 
   redditApi: {
@@ -10,9 +12,7 @@ module.exports = {
   maxDelayInSeconds: 120,
 
   blacklist: {
-    users: [
-    ],
-    subs: [
-    ],
+    users: secrets.blacklist.users,
+    subs: secrets.blacklist.subs,
   }
 }
