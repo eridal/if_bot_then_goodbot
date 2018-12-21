@@ -46,6 +46,7 @@ const canReplyTo = (comment) => {
 
 const canReplyMsg = (comment) => {
   return comment.send_replies
+      &&!comment.over_18
       && comment.distinguished !== 'moderator'
 }
 
