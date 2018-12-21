@@ -62,7 +62,7 @@ const canReplyInSub = (comment) => {
 
 const replyTo = (comment) => {
 
-  let hash = last = comment.name
+  let hash = comment.name
   let date = formatDate(comment.created_utc)
   let user = comment.author.name
 
@@ -93,6 +93,7 @@ module.exports = () => {
     })
     .map(comment => {
 
+      last = comment.name
       min = Math.min(min, comment.created_utc)
       max = Math.max(min, comment.created_utc)
 
