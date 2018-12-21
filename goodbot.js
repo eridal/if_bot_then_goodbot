@@ -1,7 +1,7 @@
-let snoowrap = require('snoowrap')
-let pkg = require('./package.json')
-let config = require('./config')
-let secrets = require('./secrets')
+const snoowrap = require('snoowrap')
+const pkg = require('./package.json')
+const config = require('./config')
+const secrets = require('./secrets')
 
 const reddit = new snoowrap({
   userAgent: `${secrets.username}:${pkg.version} (by /u/${secrets.author})`,

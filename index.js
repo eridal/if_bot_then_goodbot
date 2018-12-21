@@ -1,5 +1,5 @@
-let config = require('./config')
-let goodbot = require('./goodbot')
+const config = require('./config')
+const goodbot = require('./goodbot')
 
 
 const avg = (a, b) => Math.floor((a + b) / 2)
