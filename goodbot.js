@@ -92,6 +92,14 @@ module.exports = () => {
       replies.filter(Boolean)
     ))
     .then(() => {
+
+      // are we processing too old comments?
+      let age = Date.now() - max * 1000
+      if (age > 1000 * 60 * config.maxAgeInMinutes) {
+        console.log('catch up!')
+        last = null;
+      }
+
       // delta between first and last comment
       return size > 1
          ? max - min

@@ -10,6 +10,7 @@ module.exports = {
 
   minDelayInSeconds: 10,
   maxDelayInSeconds: 120,
+  maxAgeInMinutes: 10,
 
   blacklist: {
     users: secrets.blacklist.users,
