@@ -30,29 +30,50 @@ const reduceNoise = (user) => {
   }
 }
 
-const isUserCool = (user) => {
+const shouldReply = (comment) => {
+  return isBot(comment) && canReplyTo(comment)
+}
+
+const isBot = (comment) => {
+  return /bot\b/i.test(comment.author.name)
+}
+
+const canReplyTo = (comment) => {
+  return canReplyMsg(comment)
+      && canReplyToBot(comment)
+      && canReplyInSub(comment)
+}
+
+const canReplyMsg = (comment) => {
+  return comment.send_replies
+      && comment.distinguished !== 'moderator'
+}
+
+const canReplyToBot = (comment) => {
+  let user = comment.author.name
   return user !== secrets.username
       && isAllowedIn(user, config.blacklist.users)
       && isAllowedIn(user, tempBlackList)
 }
 
-const isSubCool = (subreddit) => {
-  return isAllowedIn(subreddit, config.blacklist.subs)
-}
-
-const isBot = (user) => {
-  return /bot\b/i.test(user)
+const canReplyInSub = (comment) => {
+  return isAllowedIn(comment.subreddit.display_name, config.blacklist.subs)
 }
 
 const replyTo = (comment) => {
+
+  let hash = last = comment.name
+  let date = formatDate(comment.created_utc)
+  let user = comment.author.name
+
   return comment
     .reply('Good Bot')
     .then(replied => {
-      reduceNoise(comment.author.name)
-      console.log('Good Bot: ', replied.permalink)
+      reduceNoise(user)
+      console.log(date, hash, 'Good Bot:', user, replied.permalink)
     })
     .catch(err => {
-      console.error('Bad Bot: ', err)
+      console.error(date, hash, 'Bad Bot:', user, err)
     })
 }
 
@@ -68,22 +89,14 @@ module.exports = () => {
     .getNewComments({ before: last, sort: 'new', limit: 100 })
     .then(comments => {
       size = comments.length
-      console.log('comments', size)
       return comments.reverse()
     })
     .map(comment => {
 
-      let hash = last = comment.name
-      let link = comment.link_id
-      let date = formatDate(comment.created_utc)
-      let user = comment.author.name
-      let subr = comment.subreddit.display_name
-
       min = Math.min(min, comment.created_utc)
       max = Math.max(min, comment.created_utc)
 
-      if (isBot(user) && isSubCool(subr) && isUserCool(user)) {
-        console.log(date, hash, link, user)
+      if (shouldReply(comment)) {
         return replyTo(comment)
       }
 
